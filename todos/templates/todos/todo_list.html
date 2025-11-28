@@ -1,0 +1,157 @@
+{% extends 'todos/base.html' %}
+
+{% block title %}Todo List{% endblock %}
+
+{% block styles %}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.todo-list {
+    list-style: none;
+}
+
+.todo-item {
+    background: #f8f9fa;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+    transition: all 0.3s;
+}
+
+.todo-item:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.todo-item.resolved {
+    opacity: 0.6;
+    border-left-color: #28a745;
+}
+
+.todo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.todo-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.todo-item.resolved .todo-title {
+    text-decoration: line-through;
+}
+
+.todo-description {
+    color: #666;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.todo-meta {
+    display: flex;
+    gap: 15px;
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 15px;
+}
+
+.todo-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.badge-success {
+    background: #d4edda;
+    color: #155724;
+}
+
+.badge-warning {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #999;
+}
+
+.empty-state-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+}
+{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h1>My Todos</h1>
+    <a href="{% url 'todo_create' %}" class="btn btn-primary">+ New Todo</a>
+</div>
+
+{% if todos %}
+<ul class="todo-list">
+    {% for todo in todos %}
+    <li class="todo-item {% if todo.resolved %}resolved{% endif %}">
+        <div class="todo-header">
+            <div>
+                <div class="todo-title">{{ todo.title }}</div>
+                {% if todo.resolved %}
+                <span class="badge badge-success">Resolved</span>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if todo.description %}
+        <div class="todo-description">{{ todo.description }}</div>
+        {% endif %}
+
+        <div class="todo-meta">
+            {% if todo.due_date %}
+            <span>Due: {{ todo.due_date|date:"M d, Y" }}</span>
+            {% else %}
+            <span>No due date</span>
+            {% endif %}
+            <span>Created: {{ todo.created_at|date:"M d, Y" }}</span>
+        </div>
+
+        <div class="todo-actions">
+            <form method="post" action="{% url 'todo_toggle_resolved' todo.pk %}" style="display: inline;">
+                {% csrf_token %}
+                {% if todo.resolved %}
+                <button type="submit" class="btn btn-secondary btn-small">Mark Unresolved</button>
+                {% else %}
+                <button type="submit" class="btn btn-success btn-small">Mark Resolved</button>
+                {% endif %}
+            </form>
+            <a href="{% url 'todo_edit' todo.pk %}" class="btn btn-primary btn-small">Edit</a>
+            <a href="{% url 'todo_delete' todo.pk %}" class="btn btn-danger btn-small">Delete</a>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<div class="empty-state">
+    <div class="empty-state-icon">📝</div>
+    <h2>No todos yet!</h2>
+    <p>Click "New Todo" to create your first task.</p>
+</div>
+{% endif %}
+{% endblock %}
