@@ -1,5 +1,7 @@
 .PHONY: help install run migrate makemigrations createsuperuser shell test clean check
 
+PYTHON := $(shell command -v python || command -v python3)
+
 help:
 	@echo "Django Todo Application - Available commands:"
 	@echo ""
@@ -18,25 +20,25 @@ install:
 	pip install django
 
 run:
-	python manage.py runserver
+	$(PYTHON) manage.py runserver
 
 migrate:
-	python manage.py migrate
+	$(PYTHON) manage.py migrate
 
 makemigrations:
-	python manage.py makemigrations
+	$(PYTHON) manage.py makemigrations
 
 createsuperuser:
-	python manage.py createsuperuser
+	$(PYTHON) manage.py createsuperuser
 
 shell:
-	python manage.py shell
+	$(PYTHON) manage.py shell
 
 test:
-	python manage.py test
+	$(PYTHON) manage.py test
 
 check:
-	python manage.py check
+	$(PYTHON) manage.py check
 
 clean:
 	find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true

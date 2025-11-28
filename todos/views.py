@@ -9,7 +9,7 @@ def todo_list(request):
 def todo_create(request):
     if request.method == 'POST':
         title = request.POST.get('title')
-        description = request.POST.get('description')
+        description = request.POST.get('description', '')
         due_date = request.POST.get('due_date')
 
         if title:
@@ -30,7 +30,7 @@ def todo_edit(request, pk):
 
     if request.method == 'POST':
         title = request.POST.get('title')
-        description = request.POST.get('description')
+        description = request.POST.get('description', '')
         due_date = request.POST.get('due_date')
 
         if title:
