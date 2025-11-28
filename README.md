@@ -42,37 +42,14 @@ A simple and elegant todo application built with Django that allows you to manag
 
 2. Install Django if not already installed:
 ```bash
-make install
-# or
 pip install django
 ```
 
 3. The database is already set up and migrated
 
-## Quick Start with Makefile
-
-This project includes a Makefile for simplified command execution:
-
-```bash
-make help          # Show all available commands
-make run           # Start development server
-make test          # Run tests
-make migrate       # Apply database migrations
-make makemigrations # Create new migrations
-make createsuperuser # Create admin user
-make shell         # Open Django shell
-make check         # Check for project issues
-make clean         # Remove cache and database
-```
-
 ## Running the Application
 
-### Using Makefile (Recommended)
-```bash
-make run
-```
-
-### Using manage.py
+Start the development server:
 ```bash
 python manage.py runserver
 ```
@@ -98,8 +75,6 @@ To access the admin interface:
 
 1. Create a superuser account:
 ```bash
-make createsuperuser
-# or
 python manage.py createsuperuser
 ```
 
@@ -135,6 +110,34 @@ In the admin interface, you can:
 - `/delete/<id>/` - Delete todo
 - `/toggle/<id>/` - Toggle resolved status
 - `/admin/` - Admin interface
+
+## Common Django Commands
+
+```bash
+# Run development server
+python manage.py runserver
+
+# Run tests
+python manage.py test
+
+# Run tests with verbose output (shows each test name)
+python manage.py test --verbosity=2
+
+# Create migrations
+python manage.py makemigrations
+
+# Apply migrations
+python manage.py migrate
+
+# Create superuser
+python manage.py createsuperuser
+
+# Open Django shell
+python manage.py shell
+
+# Check for project issues
+python manage.py check
+```
 
 ## Technologies Used
 
