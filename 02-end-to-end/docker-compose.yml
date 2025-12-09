@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: snake_arena
+    volumes:
+      - snake_arena_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d snake_arena"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      DATABASE_URL: postgresql+asyncpg://user:password@db/snake_arena
+      SEED_DB: "true"
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:8080" 
+
+volumes:
+  snake_arena_postgres_data:
