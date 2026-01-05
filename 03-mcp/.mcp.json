@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "doc-mcp": {
+      "type": "stdio",
+      "command": "uv",
+      "args": [
+        "--directory",
+        "/home/pebueno/Workarea/ai-dev-tools-zoomcamp/03-mcp",
+        "run",
+        "python",
+        "main.py"
+      ]
+    }
+  }
+}
